@@ -6,6 +6,20 @@
 ```
 go get -u github.com/wg2019/model
 ```
+#### 异常
+1. 拉不到依赖
+    ```
+    go: downloading github.com/wg2019/model v0.0.0-20201210031901-896455bf9526
+    go: github.com/wg2019/model upgrade => v0.0.0-20201210031901-896455bf9526
+    go get: github.com/wg2019/model@v0.0.0-20201210031901-896455bf9526 requires
+        github.com/jinzhu/gorm@v1.9.16 requires
+        golang.org/x/crypto@v0.0.0-20191205180655-e7c4368fe9dd: unrecognized import path "golang.org/x/crypto": https fetch: Get "https://golang.org/x/crypto?go-get=1": dial tcp 216.239.37.1:443: i/o timeout
+    ```
+    解决：
+    ```
+    go env -w GO111MODULE=on
+    go env -w GOPROXY=https://goproxy.cn,direct
+    ```
 ### 帮助
 ```
 NAME:
