@@ -67,6 +67,11 @@ var app = &cli.App{
 			Usage:   "密码",
 			Value:   "",
 		},
+		&cli.StringFlag{
+			Name:  Desc,
+			Usage: "描述",
+			Value: "json",
+		},
 	},
 	Action: ModelByInputArgs,
 }

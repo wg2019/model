@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/urfave/cli/v2"
 	"go/format"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -44,6 +45,10 @@ func GetInputParam(c *cli.Context) (param *InputStruct, err error) {
 	param.Output, ok = c.Value(Output).(string)
 	if !ok {
 		return nil, NewError("output invalid")
+	}
+	param.Desc, ok = c.Value(Desc).(string)
+	if !ok {
+		return nil, NewError("desc invalid")
 	}
 	return param, nil
 }
@@ -151,6 +156,7 @@ func SaveFile(dirPath, fileName string, text []byte) error {
 		return err
 	}
 	defer file.Close()
+	log.Printf("text: %s", text)
 	p, err := format.Source(text)
 	if err != nil {
 		return err

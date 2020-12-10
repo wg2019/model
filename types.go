@@ -1,6 +1,10 @@
 package main
 
-import "strings"
+import (
+	"fmt"
+	"log"
+	"strings"
+)
 
 const (
 	// AppName 程序名称
@@ -21,6 +25,8 @@ const (
 	User = "user"
 	// Password 用户密码
 	Password = "password"
+	// Desc 描述
+	Desc = "desc"
 )
 
 // InputStruct 输入结构
@@ -33,6 +39,7 @@ type InputStruct struct {
 	TableName string
 	User      string
 	Password  string
+	Desc      string
 }
 
 // Input 输入数据
@@ -88,6 +95,21 @@ func (t *TableField) GoType() string {
 	}
 }
 
+func (t *TableField) GetDesc() string {
+	//获取字段gorm描述
+	desc, ok := FieldDescMap[Input.Desc]
+	if !ok {
+		desc = FieldDescMap["json"]
+	}
+	log.Printf("desc: %s", Input.Desc)
+	return fmt.Sprintf(desc, t.Field)
+}
+
+var FieldDescMap = map[string]string{
+	"gorm": "`gorm:\"column:%s\"`",
+	"json": "`json:\"%s\"`",
+}
+
 // TableMetaData 表元数据
 type TableMetaData struct {
 	Package string
@@ -99,7 +121,7 @@ var tableModelTemplate = `package {{.Package}}
 {{$tableName := CamelizeStr .Name true}}
 type {{$tableName}} struct {
 {{- range .Fields}}
-	{{CamelizeStr .Field true}} {{.GoType}} ` + "// {{.Comment}}" + `
+	{{CamelizeStr .Field true}} {{.GoType}} {{.GetDesc}}	` + "// {{.Comment}}" + `
 {{- end}}
 }
 {{$firstChar := FirstCharacter .Name}}
