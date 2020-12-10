@@ -28,11 +28,12 @@ func ModelByInputArgs(c *cli.Context) error {
 		if err != nil {
 			log.Fatalf("GenerateTemplate fail, err: %v", err)
 		}
-		err = SaveFile(Input.Output, tableInfo.Name+".go", content)
+		fileName := FileName(tableInfo.Name)
+		err = SaveFile(Input.Output, fileName, content)
 		if err != nil {
 			log.Fatalf("SaveFile fail, err: %v", err)
 		}
-		log.Printf("%s \n%s\n==========", tableInfo.Name, content)
+		log.Printf("%s \n%s\n==========", fileName, content)
 	}
 	return nil
 }

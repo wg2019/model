@@ -93,6 +93,11 @@ func replaceInvalidChars(str string) string {
 	return strings.ReplaceAll(str, ".", "_")
 }
 
+func FileName(str string) string {
+	str = replaceInvalidChars(str)
+	return strings.ReplaceAll(str, "_", "") + ".go"
+}
+
 var commonInitialismMap = map[string]bool{
 	"ACL":   true,
 	"API":   true,

@@ -60,38 +60,29 @@ func (t *TableField) GoType() string {
 	typeArr := strings.Split(t.Type, "(")
 
 	switch typeArr[0] {
-	case "int":
-		return "int"
-	case "integer":
-		return "int"
-	case "mediumint":
-		return "int"
-	case "bit":
-		return "int"
-	case "year":
-		return "int"
-	case "smallint":
-		return "int"
+	case "boolean":
+		return "bool"
 	case "tinyint":
-		return "int"
+		return "int8"
+	case "smallint", "year":
+		return "int16"
+	case "integer", "mediumint", "int":
+		return "int32"
 	case "bigint":
 		return "int64"
-	case "decimal":
-		return "float32"
-	case "double":
-		return "float32"
-	case "float":
-		return "float32"
+	case "date", "timestamp without time zone", "timestamp with time zone", "time with time zone", "time without time zone",
+		"timestamp", "datetime", "time":
+		return "string"
+	case "bytea",
+		"binary", "varbinary", "tinyblob", "blob", "mediumblob", "longblob":
+		return "[]byte"
+	case "text", "character", "character varying", "tsvector", "bit", "bit varying", "money", "json", "jsonb", "xml", "point", "interval", "line", "ARRAY",
+		"char", "varchar", "tinytext", "mediumtext", "longtext":
+		return "string"
 	case "real":
 		return "float32"
-	case "numeric":
-		return "float32"
-	case "timestamp":
-		return "time.Time"
-	case "datetime":
-		return "time.Time"
-	case "time":
-		return "time.Time"
+	case "numeric", "decimal", "double precision", "float", "double":
+		return "float64"
 	default:
 		return "string"
 	}
